@@ -13,8 +13,8 @@ class Ingredient(models.Model):
 class MenuItem(models.Model):
     title = models.CharField(max_length=150)
     price = models.FloatField(default=0)
-    image_url = models.CharField(default="", blank=True, null=True)
-    recipe_url = models.CharField(default="", blank=True, null=True)
+    image_url = models.CharField(max_length=300, default="", blank=True, null=True)
+    recipe_url = models.CharField(max_length=300, default="", blank=True, null=True)
 
 
 class RecipeRequirement(models.Model):
