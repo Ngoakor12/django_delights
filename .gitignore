@@ -1,0 +1,21 @@
+# Django project directories and files
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+
+# Local development settings
+.env
+.env.local
+.env.*.local
+
+# Static files (usually served by a web server)
+/static/
+
+# Media files (user-uploaded content)
+/media/
+
+# Virtual environment
+venv/
