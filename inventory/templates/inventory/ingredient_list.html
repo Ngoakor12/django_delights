@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ingredients list</title>
+  </head>
+  <body>
+    <h1>List of available ingredients:</h1>
+    <ul>
+      {% for ingredient in ingredients %}
+      <li>{{ ingredient }}</li>
+      {% empty %}
+      <li>No objects found.</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
