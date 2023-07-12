@@ -36,7 +36,6 @@ class RecipeRequirement(models.Model):
 class Purchase(models.Model):
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     timestamp = models.DateTimeField()
-    quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"#{self.quantity} {self.menu_item} - total: R{self.quantity*self.menu_item.price}"
+        return f"{self.menu_item.title} - total: R{self.menu_item.price}"
