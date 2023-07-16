@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import (
     ListView,
     DetailView,
@@ -59,3 +59,7 @@ def finances(request):
     context["profit"] = round(profit, 2)
 
     return render(request, "inventory/finances.html", context)
+
+
+def home_view(request):
+    return redirect("inventory/menu_item/list")

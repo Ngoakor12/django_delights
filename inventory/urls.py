@@ -16,9 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import IngredientListView, PurchaseListView, menu_item_list, finances
+from .views import (
+    IngredientListView,
+    PurchaseListView,
+    menu_item_list,
+    finances,
+    home_view,
+)
 
 urlpatterns = [
+    path("", home_view, name="home"),
     path(
         "inventory/ingredient/list",
         IngredientListView.as_view(),
