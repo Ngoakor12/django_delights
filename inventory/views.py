@@ -70,7 +70,6 @@ def ingredient_delete(request, pk):
     """delete one unit of a given ingredient"""
 
     ingredients_match = Ingredient.objects.get(pk=pk)
-    print(f"hello = {ingredients_match}")
     if ingredients_match:
         if ingredients_match.quantity != 0:
             ingredients_match.quantity -= 1
@@ -84,7 +83,6 @@ def ingredient_delete_all(request, pk):
     """delete all units of a given ingredient"""
 
     ingredients_match = Ingredient.objects.get(pk=pk)
-    print(f"hello = {ingredients_match}")
     if ingredients_match:
         if ingredients_match.quantity != 0:
             ingredients_match.quantity = 0
