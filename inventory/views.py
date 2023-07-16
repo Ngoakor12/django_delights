@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import (
     ListView,
     DetailView,
@@ -63,3 +64,31 @@ def finances(request):
 
 def home_view(request):
     return redirect("inventory/menu_item/list")
+
+
+def ingredient_delete(request, pk):
+    """delete one unit of a given ingredient"""
+
+    ingredients_match = Ingredient.objects.get(pk=pk)
+    print(f"hello = {ingredients_match}")
+    if ingredients_match:
+        if ingredients_match.quantity != 0:
+            ingredients_match.quantity -= 1
+            ingredients_match.save()
+
+    base_url = request.build_absolute_uri(reverse("ingredient_list"))
+    return redirect(base_url)
+
+
+def ingredient_delete_all(request, pk):
+    """delete all units of a given ingredient"""
+
+    ingredients_match = Ingredient.objects.get(pk=pk)
+    print(f"hello = {ingredients_match}")
+    if ingredients_match:
+        if ingredients_match.quantity != 0:
+            ingredients_match.quantity = 0
+            ingredients_match.save()
+
+    base_url = request.build_absolute_uri(reverse("ingredient_list"))
+    return redirect(base_url)
