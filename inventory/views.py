@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     ListView,
     DetailView,
@@ -9,6 +9,7 @@ from django.views.generic import (
 )
 
 from .models import Ingredient, MenuItem, RecipeRequirement, Purchase
+from .forms import IngredientCreateForm
 
 
 # Create your views here.
@@ -16,6 +17,13 @@ class IngredientListView(ListView):
     model = Ingredient
     template_name = "inventory/ingredient_list.html"
     context_object_name = "ingredients"
+
+
+class IngredientCreateView(CreateView):
+    model = Ingredient
+    template_name = "inventory/ingredient_create.html"
+    form_class = IngredientCreateForm
+    success_url = reverse_lazy("ingredient_list")
 
 
 class PurchaseListView(ListView):

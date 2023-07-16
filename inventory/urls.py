@@ -24,6 +24,7 @@ from .views import (
     home_view,
     ingredient_delete,
     ingredient_delete_all,
+    IngredientCreateView,
 )
 
 urlpatterns = [
@@ -46,4 +47,9 @@ urlpatterns = [
     path("inventory/purchase/list", PurchaseListView.as_view(), name="purchase_list"),
     path("inventory/menu_item/list", menu_item_list, name="menu_item_list"),
     path("finances", finances, name="finances"),
+    path(
+        "inventory/ingredient/create",
+        IngredientCreateView.as_view(),
+        name="ingredient_create",
+    ),
 ]
