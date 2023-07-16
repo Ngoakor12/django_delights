@@ -90,5 +90,4 @@ def ingredient_delete_all(request, pk):
             ingredients_match.quantity = 0
             ingredients_match.save()
 
-    base_url = request.build_absolute_uri(reverse("ingredient_list"))
-    return redirect(base_url)
+    return redirect(reverse("ingredient_list"))
