@@ -1,10 +1,12 @@
+{% extends 'inventory/base.html' %}
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ingredients list</title>
+    {% block title %} Ingredients list {% endblock %}
   </head>
   <body>
     <h1>List of available ingredients:</h1>
+    {% block content %}
     <table  style="border-collapse: collapse; border:1px solid black">
       <thead>
         <th style="border:1px solid black">ingredient</th>
@@ -21,5 +23,6 @@
         {% endfor %}
       </tbody>
     </table>
+    {% endblock %}
   </body>
 </html>

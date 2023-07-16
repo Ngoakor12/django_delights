@@ -1,17 +1,17 @@
+{% extends 'inventory/base.html' %}
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ingredients list</title>
+    {% block title %} Restaurant Finances {% endblock %}
   </head>
   <body>
     <h1>Restaurant Finances</h1>
-    <ul>
-      
-      <li><strong>Revenue:</strong> R{{revenue}}</li>
-      <li><strong>Cost:</strong> R{{cost}}</li>
-      <li><strong>Profit:</strong> R{{profit}}</li>
-      
-      
-    </ul>
+      {% block content %}
+        <ul>
+          <li><strong>Revenue:</strong> R{{revenue}}</li>
+          <li><strong>Cost:</strong> R{{cost}}</li>
+          <li><strong>Profit:</strong> R{{profit}}</li>
+        </ul>
+      {% endblock %}
   </body>
 </html>
