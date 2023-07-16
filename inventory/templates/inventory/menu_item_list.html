@@ -1,0 +1,26 @@
+{% extends 'inventory/base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block title %} Menu {% endblock %}
+  </head>
+  <body>
+    <h1>List of available menu items:</h1>
+    {% block content %}
+    <ul>
+      {% for menu_item in menu_items %}
+      <li>{{ menu_item.item.title }} - R{{ menu_item.item.price }}</li>
+      <ul>
+        {% for ingredient in menu_item.ingredients %}
+        <li>
+          {{ ingredient.ingredient.name }}, {{ ingredient.quantity }} {{ ingredient.ingredient.unit }} {{ ingredient.ingredient.unit}}
+        </li>
+        {% endfor %}
+      </ul>
+      {% empty %}
+      <li>No objects found.</li>
+      {% endfor %}
+    </ul>
+    {% endblock %}
+  </body>
+</html>

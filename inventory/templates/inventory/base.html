@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'ingredient_list' %}">Ingredients</a>
+        <a href="{% url 'menu_item_list' %}">Menu</a>
+        <a href="{% url 'purchase_list' %}">Purchases</a>
+        <a href="{% url 'finances' %}">Finances</a>
+    </nav>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+  </body>
+</html>
