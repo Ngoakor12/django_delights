@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ingredient, MenuItem, RecipeRequirement
+from .models import Ingredient, MenuItem, RecipeRequirement, Purchase
 
 
 class IngredientCreateForm(forms.ModelForm):
@@ -18,3 +18,9 @@ class RecipeRequirementCreateForm(forms.ModelForm):
     class Meta:
         model = RecipeRequirement
         fields = ["menu_item", "ingredient", "quantity"]
+
+
+class PurchaseCreateForm(forms.ModelForm):
+    class Meta:
+        model = Purchase
+        fields = ["menu_item"]

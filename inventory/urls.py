@@ -27,6 +27,7 @@ from .views import (
     IngredientCreateView,
     MenuItemCreateView,
     RecipeRequirementCreateView,
+    PurchaseCreateView,
 )
 
 urlpatterns = [
@@ -63,5 +64,10 @@ urlpatterns = [
         "inventory/recipe_requirement/create",
         RecipeRequirementCreateView.as_view(),
         name="recipe_requirement_create",
+    ),
+    path(
+        "inventory/purchase/create",
+        PurchaseCreateView.as_view(),
+        name="purchase_create",
     ),
 ]
