@@ -9,7 +9,7 @@ from django.views.generic import (
 )
 
 from .models import Ingredient, MenuItem, RecipeRequirement, Purchase
-from .forms import IngredientCreateForm, MenuItemCreateForm
+from .forms import IngredientCreateForm, MenuItemCreateForm, RecipeRequirementCreateForm
 
 
 # Create your views here.
@@ -103,4 +103,11 @@ class MenuItemCreateView(CreateView):
     model = MenuItem
     template_name = "inventory/menu_item_create.html"
     form_class = MenuItemCreateForm
+    success_url = reverse_lazy("menu_item_list")
+
+
+class RecipeRequirementCreateView(CreateView):
+    model = RecipeRequirement
+    template_name = "inventory/recipe_requirement_create.html"
+    form_class = RecipeRequirementCreateForm
     success_url = reverse_lazy("menu_item_list")

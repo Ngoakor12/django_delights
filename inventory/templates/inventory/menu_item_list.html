@@ -7,14 +7,15 @@
   <body>
     <h1>List of available menu items:</h1>
     {% block content %}
-    <a href="{% url 'menu_item_create'  %}">Add +</a>
+    <a href="{% url 'menu_item_create'  %}">Add menu item +</a>
+    <a href="{% url 'recipe_requirement_create'  %}">Add recipe requirement +</a>
     <ul>
       {% for menu_item in menu_items %}
       <li>{{ menu_item.item.title }} - R{{ menu_item.item.price }}</li>
       <ul>
         {% for ingredient in menu_item.ingredients %}
         <li>
-          {{ ingredient.ingredient.name }}, {{ ingredient.quantity }} {{ ingredient.ingredient.unit }} {{ ingredient.ingredient.unit}}
+          {{ ingredient.ingredient.name }}, {{ ingredient.quantity }} {{ ingredient.ingredient.unit }}
         </li>
         {% endfor %}
       </ul>
