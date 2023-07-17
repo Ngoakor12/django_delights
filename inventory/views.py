@@ -145,6 +145,7 @@ class PurchaseCreateView(CreateView):
         return super().form_valid(form)
 
     def validate_data(self, form):
+        # TODO: filter the right ingredients
         recipe_requirements = RecipeRequirement.objects.filter(
             pk=form.instance.menu_item.pk
         )
