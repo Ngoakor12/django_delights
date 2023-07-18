@@ -57,11 +57,10 @@ def finances(request):
     revenue = sum(purchase_prices)
     context["revenue"] = round(revenue, 2)
 
+    ingredients = Ingredient.objects.all()
     cost = 0
-    for purchase in purchases:
-        recipe_reqs = purchase.menu_item.reciperequirement_set.all()
-        for recipe_req in recipe_reqs:
-            cost += recipe_req.ingredient.unit_price * recipe_req.quantity
+    for ingredient in ingredients:
+        cost += ingredient.unit_price * ingredient.quantity
     context["cost"] = round(cost, 2)
 
     profit = revenue - cost
