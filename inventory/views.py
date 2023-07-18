@@ -145,34 +145,37 @@ class PurchaseCreateView(CreateView):
         return super().form_valid(form)
 
     def validate_data(self, form):
-        # TODO: filter the right ingredients
-        recipe_requirements = RecipeRequirement.objects.filter(
-            pk=form.instance.menu_item.pk
+        recipe_requirements_match = self.get_matching_recipe_requirements(
+            form.instance.menu_item.pk
         )
+
         ingredients = Ingredient.objects.all()
-        print(recipe_requirements)
-        for recipe_requirement in recipe_requirements:
+        for recipe_requirement in recipe_requirements_match:
             for ingredient in ingredients:
                 if recipe_requirement.ingredient.pk == ingredient.pk:
-                    print("found match")
-                    print(
-                        f"{recipe_requirement.ingredient.name} - {recipe_requirement.quantity} - {ingredient.quantity}"
-                    )
                     if recipe_requirement.quantity > ingredient.quantity:
-                        print("not enough ingredients")
                         return False
-        print("done validation")
         return True
 
     def update_data(self, form):
-        recipe_requirements = RecipeRequirement.objects.filter(
-            pk=form.instance.menu_item.pk
+        recipe_requirements_match = self.get_matching_recipe_requirements(
+            form.instance.menu_item.pk
         )
+
         ingredients = Ingredient.objects.all()
 
-        for recipe_requirement in recipe_requirements:
+        for recipe_requirement in recipe_requirements_match:
             for ingredient in ingredients:
                 if recipe_requirement.ingredient.name == ingredient.name:
                     ingredient.quantity -= recipe_requirement.quantity
-        print("done update")
-        # ingredients.save()
+                    ingredient.save()
+
+    def get_matching_recipe_requirements(self, menu_item_pk):
+        recipe_requirements = RecipeRequirement.objects.all()
+
+        def recipe_req_match(req):
+            if req.menu_item.pk == menu_item_pk:
+                return True
+            return False
+
+        return filter(recipe_req_match, recipe_requirements)
