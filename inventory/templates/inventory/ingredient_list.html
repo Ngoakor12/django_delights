@@ -17,7 +17,9 @@
       </thead>
       <tbody>
         {% for ingredient in ingredients %}
-        <tr><td>{{ ingredient.name }}</td> <td>{{ ingredient.quantity }}</td> <td><a href="{% url 'ingredient_delete' pk=ingredient.pk  %}">delete 1</a></td> <td><a href="{% url 'ingredient_delete_all' pk=ingredient.pk  %}">delete all</a></td></tr>
+          {% if ingredient.quantity %}
+            <tr><td>{{ ingredient.name }}</td> <td>{{ ingredient.quantity }}</td> <td><a href="{% url 'ingredient_update' pk=ingredient.pk  %}">edit</a></td> <td><a href="{% url 'ingredient_delete_all' pk=ingredient.pk  %}">remove</a></td></tr>
+          {% endif %}
         {% empty %}
         <li>No objects found.</li>
         {% endfor %}

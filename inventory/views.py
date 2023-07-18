@@ -16,6 +16,7 @@ from .forms import (
     MenuItemCreateForm,
     RecipeRequirementCreateForm,
     PurchaseCreateForm,
+    IngredientUpdateForm,
 )
 
 
@@ -73,17 +74,17 @@ def home_view(request):
     return redirect("inventory/menu_item/list")
 
 
-def ingredient_delete(request, pk):
-    """delete one unit of a given ingredient"""
+# def ingredient_update(request, pk):
+#     """delete one unit of a given ingredient"""
 
-    ingredients_match = Ingredient.objects.get(pk=pk)
-    if ingredients_match:
-        if ingredients_match.quantity != 0:
-            ingredients_match.quantity -= 1
-            ingredients_match.save()
+#     ingredients_match = Ingredient.objects.get(pk=pk)
+#     if ingredients_match:
+#         if ingredients_match.quantity != 0:
+#             ingredients_match.quantity -= 1
+#             ingredients_match.save()
 
-    base_url = request.build_absolute_uri(reverse("ingredient_list"))
-    return redirect(base_url)
+#     base_url = request.build_absolute_uri(reverse("ingredient_list"))
+#     return redirect(base_url)
 
 
 def ingredient_delete_all(request, pk):
@@ -102,6 +103,14 @@ class IngredientCreateView(CreateView):
     model = Ingredient
     template_name = "inventory/ingredient_create.html"
     form_class = IngredientCreateForm
+    success_url = reverse_lazy("ingredient_list")
+
+
+class IngredientUpdateView(UpdateView):
+    # TODO: prefill update view
+    model = Ingredient
+    template_name = "inventory/ingredient_update.html"
+    form_class = IngredientUpdateForm
     success_url = reverse_lazy("ingredient_list")
 
 

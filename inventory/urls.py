@@ -22,7 +22,7 @@ from .views import (
     menu_item_list,
     finances,
     home_view,
-    ingredient_delete,
+    IngredientUpdateView,
     ingredient_delete_all,
     IngredientCreateView,
     MenuItemCreateView,
@@ -38,9 +38,9 @@ urlpatterns = [
         name="ingredient_list",
     ),
     path(
-        "inventory/ingredient/delete/<int:pk>/",
-        ingredient_delete,
-        name="ingredient_delete",
+        "inventory/ingredient/update/<int:pk>/",
+        IngredientUpdateView.as_view(),
+        name="ingredient_update",
     ),
     path(
         "inventory/ingredient/delete_all/<int:pk>/",
