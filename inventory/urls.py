@@ -22,8 +22,12 @@ from .views import (
     menu_item_list,
     finances,
     home_view,
-    ingredient_delete,
+    IngredientUpdateView,
     ingredient_delete_all,
+    IngredientCreateView,
+    MenuItemCreateView,
+    RecipeRequirementCreateView,
+    PurchaseCreateView,
 )
 
 urlpatterns = [
@@ -34,9 +38,9 @@ urlpatterns = [
         name="ingredient_list",
     ),
     path(
-        "inventory/ingredient/delete/<int:pk>/",
-        ingredient_delete,
-        name="ingredient_delete",
+        "inventory/ingredient/update/<int:pk>/",
+        IngredientUpdateView.as_view(),
+        name="ingredient_update",
     ),
     path(
         "inventory/ingredient/delete_all/<int:pk>/",
@@ -46,4 +50,24 @@ urlpatterns = [
     path("inventory/purchase/list", PurchaseListView.as_view(), name="purchase_list"),
     path("inventory/menu_item/list", menu_item_list, name="menu_item_list"),
     path("finances", finances, name="finances"),
+    path(
+        "inventory/ingredient/create",
+        IngredientCreateView.as_view(),
+        name="ingredient_create",
+    ),
+    path(
+        "inventory/menu_item/create",
+        MenuItemCreateView.as_view(),
+        name="menu_item_create",
+    ),
+    path(
+        "inventory/recipe_requirement/create",
+        RecipeRequirementCreateView.as_view(),
+        name="recipe_requirement_create",
+    ),
+    path(
+        "inventory/purchase/create",
+        PurchaseCreateView.as_view(),
+        name="purchase_create",
+    ),
 ]

@@ -1,0 +1,17 @@
+{% extends 'inventory/base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block title %} Create Ingredient {% endblock %}
+  </head>
+  <body>
+    <h1>Add Ingredient</h1>
+    {% block content %}
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+      </form>
+    {% endblock %}
+  </body>
+</html>

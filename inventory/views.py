@@ -1,5 +1,7 @@
+from django.utils import timezone
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     ListView,
     DetailView,
@@ -9,6 +11,13 @@ from django.views.generic import (
 )
 
 from .models import Ingredient, MenuItem, RecipeRequirement, Purchase
+from .forms import (
+    IngredientCreateForm,
+    MenuItemCreateForm,
+    RecipeRequirementCreateForm,
+    PurchaseCreateForm,
+    IngredientUpdateForm,
+)
 
 
 # Create your views here.
@@ -49,11 +58,10 @@ def finances(request):
     revenue = sum(purchase_prices)
     context["revenue"] = round(revenue, 2)
 
+    ingredients = Ingredient.objects.all()
     cost = 0
-    for purchase in purchases:
-        recipe_reqs = purchase.menu_item.reciperequirement_set.all()
-        for recipe_req in recipe_reqs:
-            cost += recipe_req.ingredient.unit_price * recipe_req.quantity
+    for ingredient in ingredients:
+        cost += ingredient.unit_price * ingredient.quantity
     context["cost"] = round(cost, 2)
 
     profit = revenue - cost
@@ -66,19 +74,6 @@ def home_view(request):
     return redirect("inventory/menu_item/list")
 
 
-def ingredient_delete(request, pk):
-    """delete one unit of a given ingredient"""
-
-    ingredients_match = Ingredient.objects.get(pk=pk)
-    if ingredients_match:
-        if ingredients_match.quantity != 0:
-            ingredients_match.quantity -= 1
-            ingredients_match.save()
-
-    base_url = request.build_absolute_uri(reverse("ingredient_list"))
-    return redirect(base_url)
-
-
 def ingredient_delete_all(request, pk):
     """delete all units of a given ingredient"""
 
@@ -89,3 +84,92 @@ def ingredient_delete_all(request, pk):
             ingredients_match.save()
 
     return redirect(reverse("ingredient_list"))
+
+
+class IngredientCreateView(CreateView):
+    model = Ingredient
+    template_name = "inventory/ingredient_create.html"
+    form_class = IngredientCreateForm
+    success_url = reverse_lazy("ingredient_list")
+
+
+class IngredientUpdateView(UpdateView):
+    model = Ingredient
+    template_name = "inventory/ingredient_update.html"
+    form_class = IngredientUpdateForm
+    success_url = reverse_lazy("ingredient_list")
+
+
+class MenuItemCreateView(CreateView):
+    model = MenuItem
+    template_name = "inventory/menu_item_create.html"
+    form_class = MenuItemCreateForm
+    success_url = reverse_lazy("menu_item_list")
+
+
+class RecipeRequirementCreateView(CreateView):
+    model = RecipeRequirement
+    template_name = "inventory/recipe_requirement_create.html"
+    form_class = RecipeRequirementCreateForm
+    success_url = reverse_lazy("menu_item_list")
+
+
+class PurchaseCreateView(CreateView):
+    model = Purchase
+    template_name = "inventory/recipe_requirement_create.html"
+    form_class = PurchaseCreateForm
+    success_url = reverse_lazy("purchase_list")
+
+    def form_valid(self, form):
+        if not self.validate_data(form):
+            # If the validation fails, display an error message and abort the save
+            form.add_error(
+                None,
+                "The ingredients available are not enough to create that menu item",
+            )
+            return self.form_invalid(form)
+
+        # Set the timestamp field before saving
+        form.instance.timestamp = timezone.now()
+
+        # update remaining ingredients
+        self.update_data(form)
+
+        # Save the form data
+        return super().form_valid(form)
+
+    def validate_data(self, form):
+        recipe_requirements_match = self.get_matching_recipe_requirements(
+            form.instance.menu_item.pk
+        )
+
+        ingredients = Ingredient.objects.all()
+        for recipe_requirement in recipe_requirements_match:
+            for ingredient in ingredients:
+                if recipe_requirement.ingredient.pk == ingredient.pk:
+                    if recipe_requirement.quantity > ingredient.quantity:
+                        return False
+        return True
+
+    def update_data(self, form):
+        recipe_requirements_match = self.get_matching_recipe_requirements(
+            form.instance.menu_item.pk
+        )
+
+        ingredients = Ingredient.objects.all()
+
+        for recipe_requirement in recipe_requirements_match:
+            for ingredient in ingredients:
+                if recipe_requirement.ingredient.name == ingredient.name:
+                    ingredient.quantity -= recipe_requirement.quantity
+                    ingredient.save()
+
+    def get_matching_recipe_requirements(self, menu_item_pk):
+        recipe_requirements = RecipeRequirement.objects.all()
+
+        def recipe_req_match(req):
+            if req.menu_item.pk == menu_item_pk:
+                return True
+            return False
+
+        return filter(recipe_req_match, recipe_requirements)
