@@ -118,7 +118,7 @@ class PurchaseCreateView(CreateView):
     model = Purchase
     template_name = "inventory/recipe_requirement_create.html"
     form_class = PurchaseCreateForm
-    success_url = reverse_lazy("menu_item_list")
+    success_url = reverse_lazy("purchase_list")
 
     def form_valid(self, form):
         if not self.validate_data(form):
