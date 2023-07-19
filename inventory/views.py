@@ -9,6 +9,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from .models import Ingredient, MenuItem, RecipeRequirement, Purchase
 from .forms import (
@@ -173,3 +175,21 @@ class PurchaseCreateView(CreateView):
             return False
 
         return filter(recipe_req_match, recipe_requirements)
+
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # Redirect to a success page or another URL
+            return redirect("home")
+
+    return render(request, "registration/login.html")
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("home")
