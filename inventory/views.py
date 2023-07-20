@@ -21,6 +21,8 @@ from .forms import (
     IngredientUpdateForm,
 )
 
+# TODO: login required mixins/decorators
+
 
 # Create your views here.
 class IngredientListView(ListView):
@@ -192,4 +194,4 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect("home")
+    return redirect("login")

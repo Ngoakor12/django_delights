@@ -77,9 +77,9 @@ urlpatterns = [
         login_view,
         name="login",
     ),
-    # path(
-    #     "account/logout",
-    #     logout_view,
-    #     name="logout",
-    # ),
+    path(
+        "logout",
+        logout_view,
+        name="logout",
+    ),
 ]
