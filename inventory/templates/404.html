@@ -1,0 +1,13 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>404 - Not Found</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+        <h1>Ooops!</h1>
+        <h2>I cannot find the file you requested!</h2>
+        <a href="{% url 'login' %}">Log in page</a>
+  </body>
+</html>
