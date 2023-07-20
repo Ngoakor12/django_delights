@@ -4,10 +4,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     ListView,
-    DetailView,
     CreateView,
     UpdateView,
-    DeleteView,
 )
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -21,8 +19,6 @@ from .forms import (
     PurchaseCreateForm,
     IngredientUpdateForm,
 )
-
-# TODO: login required mixins/decorators
 
 
 # Create your views here.
@@ -191,7 +187,6 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            # Redirect to a success page or another URL
             return redirect("home")
 
     return render(request, "registration/login.html")
